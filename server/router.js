@@ -5,11 +5,13 @@ const passport = require('passport');
 // I set the session to false so passport doesn't use cookie based Authentication
 // since I am using JSON Web Token
 const requireAuth = passport.authenticate('jwt', { session: false } );
+const requireSignin = passport.authenticate('local', { session: false } );
 
 
 module.exports = function(app) {
   app.get('/', requireAuth, function(req, res) {
     res.send({ hi: "there" });
   });
+  app.post('/signin', requireSignin, Authentication.signin);
   app.post('/signup', Authentication.signup);
 }
